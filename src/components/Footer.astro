@@ -1,0 +1,100 @@
+---
+// Contact lives in the footer of every page.
+// GitHub Pages is static, so the form opens the visitor's email app with the
+// message pre-filled. The address is also shown with a copy button for people
+// who use webmail.
+const email = 'bhavsarmanan2107@gmail.com';
+const linkedin = 'https://www.linkedin.com/in/bhavsarmanan21072004';
+const github = 'https://github.com/Manan2107Bhavsar';
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <section id="contact" class="contact wrap" aria-labelledby="contact-title">
+    <div class="contact__intro">
+      <p class="label">Contact</p>
+      <h2 id="contact-title">Let's talk drafting.</h2>
+      <p class="muted">Questions about my work, a co-op or job opening, or one of my tools? Send me a message and I'll reply by email.</p>
+      <div class="contact__direct">
+        <a class="contact__email" href={`mailto:${email}`}>{email}</a>
+        <button class="btn btn--ghost copy-btn" type="button" data-copy={email}>Copy email</button>
+      </div>
+      <ul class="contact__links">
+        <li><a href={linkedin} rel="noopener" target="_blank">LinkedIn</a></li>
+        <li><a href={github} rel="noopener" target="_blank">GitHub</a></li>
+      </ul>
+    </div>
+
+    <form class="contact__form" data-email={email} novalidate>
+      <div class="field">
+        <label for="c-name">Your name</label>
+        <input id="c-name" name="name" type="text" autocomplete="name" required />
+      </div>
+      <div class="field">
+        <label for="c-subject">Subject</label>
+        <input id="c-subject" name="subject" type="text" placeholder="e.g. Drafting position" />
+      </div>
+      <div class="field">
+        <label for="c-msg">Message</label>
+        <textarea id="c-msg" name="message" rows="5" required></textarea>
+      </div>
+      <button class="btn" type="submit">Email me</button>
+      <p class="form-note muted" role="status">Opens your email app with your message ready to send.</p>
+    </form>
+  </section>
+
+  <div class="footer-bar">
+    <div class="wrap footer-bar__inner">
+      <span class="label">© {year} Manan Bhavsar · Moose Jaw &amp; Saskatoon, SK</span>
+      <span class="label">Built with Astro · Hosted on GitHub Pages</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.copy-btn').forEach((b) => {
+    b.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(b.dataset.copy || '');
+        const t = b.textContent; b.textContent = 'Copied';
+        setTimeout(() => (b.textContent = t), 1600);
+      } catch { /* clipboard blocked: the address is visible anyway */ }
+    });
+  });
+  const form = document.querySelector<HTMLFormElement>('.contact__form');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const d = new FormData(form);
+    const name = String(d.get('name') || '').trim();
+    const msg = String(d.get('message') || '').trim();
+    const note = form.querySelector('.form-note');
+    if (!name || !msg) { if (note) note.textContent = 'Please add your name and a message.'; return; }
+    const subject = String(d.get('subject') || '').trim() || `Message from ${name} (portfolio)`;
+    const body = `${msg}\n\n— ${name}`;
+    window.location.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    if (note) note.textContent = 'Your email app should open now. If it doesn’t, copy the address on the left.';
+  });
+</script>
+
+<style>
+  .site-footer { border-top: 1px solid var(--line); margin-top: var(--space-5); background: var(--paper-2); }
+  .contact { display: grid; grid-template-columns: 1fr 1.1fr; gap: var(--space-5); padding-block: var(--space-5); }
+  .contact h2 { margin-top: 0.3rem; }
+  .contact__direct { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; margin: var(--space-3) 0 var(--space-2); }
+  .contact__email { font-family: var(--font-mono); font-size: 1rem; color: var(--ink); }
+  .contact__links { display: flex; gap: 1.25rem; list-style: none; padding: 0; margin: 0; }
+  .contact__links li { margin: 0; }
+  .contact__form { display: grid; gap: var(--space-2); align-content: start; }
+  .field { display: grid; gap: 0.35rem; }
+  .field label { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-3); }
+  .field input, .field textarea {
+    font: inherit; color: var(--ink);
+    background: var(--paper); border: 1px solid var(--line-strong); border-radius: var(--radius);
+    padding: 0.7rem 0.8rem;
+  }
+  .field input:focus, .field textarea:focus { outline: 2px solid var(--accent); outline-offset: 0; border-color: transparent; }
+  .contact__form .btn { justify-self: start; }
+  .form-note { font-size: var(--step--1); margin: 0; }
+  .footer-bar { border-top: 1px solid var(--line); }
+  .footer-bar__inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; padding-block: 1.1rem; }
+  @media (max-width: 860px) { .contact { grid-template-columns: 1fr; gap: var(--space-4); } }
+</style>

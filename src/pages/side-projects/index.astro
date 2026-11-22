@@ -1,0 +1,32 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import SectionHead from '../../components/SectionHead.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+
+const projects = (await getCollection('projects', (p) => p.data.kind === 'side')).sort((a, b) => a.data.order - b.data.order);
+const lede = 'Things I build for fun and out of curiosity, outside my courses: small tools that connect the software I use, and experiments to see what it can do.';
+---
+<Base title="Side projects" description={lede}>
+  <section class="wrap section">
+    <SectionHead as="h1" label="Outside the classroom" title="Side projects" />
+    <p class="lede">{lede}</p>
+
+    <ul class="grid" role="list">
+      {projects.map((p) => (
+        <li><ProjectCard project={p} headingLevel="h2" /></li>
+      ))}
+    </ul>
+
+    <p class="muted more">More of my code is on <a href="https://github.com/Manan2107Bhavsar" rel="noopener">GitHub</a>.</p>
+  </section>
+</Base>
+
+<style>
+  .lede { margin-bottom: var(--space-4); }
+  .grid { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-3); grid-template-columns: 1fr; }
+  .grid > li { margin: 0; }
+  @media (min-width: 640px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 980px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .more { margin-top: var(--space-4); }
+</style>

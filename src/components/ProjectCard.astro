@@ -1,0 +1,41 @@
+---
+import type { CollectionEntry } from 'astro:content';
+interface Props { project: CollectionEntry<'projects'>; headingLevel?: 'h2' | 'h3' }
+const { project, headingLevel = 'h3' } = Astro.props;
+const d = project.data;
+const href = d.kind === 'side' ? `/side-projects/${project.id}/` : `/projects/${project.id}/`;
+const H = headingLevel;
+---
+<article class="card" data-discipline={d.discipline}>
+  <a class="card__link" href={href}>
+    <div class="card__media grid-bg">
+      {d.poster
+        ? <img src={d.poster} alt="" loading="lazy" decoding="async" />
+        : <span class="card__placeholder label">{d.discipline}</span>}
+      {d.model && <span class="card__badge label">3D</span>}
+    </div>
+    <div class="card__body">
+      <p class="label">{d.discipline} · {d.term}</p>
+      <H class="card__title">{d.title}</H>
+      <p class="card__summary">{d.summary}</p>
+      <ul class="tags" aria-label="Software">
+        {d.software.slice(0, 4).map((s) => <li><span class="tag">{s}</span></li>)}
+      </ul>
+    </div>
+  </a>
+</article>
+
+<style>
+  .card { border: 1px solid var(--line); background: var(--paper); transition: border-color 0.15s, transform 0.15s; }
+  .card:hover { border-color: var(--ink); }
+  .card__link { display: flex; flex-direction: column; height: 100%; color: inherit; text-decoration: none; }
+  .card__media { position: relative; aspect-ratio: 4 / 3; border-bottom: 1px solid var(--line); display: grid; place-items: center; overflow: hidden; }
+  .card__media img { width: 100%; height: 100%; object-fit: contain; padding: 0.75rem; transition: transform 0.4s ease; }
+  .card:hover .card__media img { transform: scale(1.03); }
+  .card__badge { position: absolute; top: 0.6rem; right: 0.6rem; background: var(--ink); color: var(--paper); padding: 0.15rem 0.45rem; letter-spacing: 0.08em; }
+  .card__body { padding: var(--space-2) var(--space-2) var(--space-3); display: grid; gap: 0.5rem; }
+  .card__title { font-size: var(--step-1); margin: 0; }
+  .card:hover .card__title { color: var(--accent-ink); }
+  .card__summary { color: var(--ink-2); font-size: 0.95rem; margin: 0; }
+  @media (prefers-reduced-motion: reduce) { .card__media img { transition: none; } }
+</style>

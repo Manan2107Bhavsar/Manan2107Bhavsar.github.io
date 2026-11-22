@@ -1,0 +1,82 @@
+---
+const links = [
+  { href: '/work/', label: 'Co-op work' },
+  { href: '/projects/', label: 'Projects' },
+  { href: '/side-projects/', label: 'Side projects' },
+  { href: '/about/', label: 'About' },
+  { href: '/resume/', label: 'Resume' },
+];
+const path = Astro.url.pathname;
+const isActive = (href: string) => path === href || path.startsWith(href);
+---
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="brand" href="/" aria-label="Manan Bhavsar, home">
+      <span class="brand__mark" aria-hidden="true">MB</span>
+      <span class="brand__name">Manan Bhavsar</span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav">
+      <span class="visually-hidden">Menu</span>
+      <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><path d="M3 6h16M3 11h16M3 16h16" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+    </button>
+    <nav id="site-nav" class="site-nav" aria-label="Main">
+      <ul>
+        {links.map((l) => (
+          <li><a href={l.href} aria-current={isActive(l.href) ? 'page' : undefined}>{l.label}</a></li>
+        ))}
+        <li><a class="nav-contact" href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('.nav-toggle');
+  const nav = document.getElementById('site-nav');
+  btn?.addEventListener('click', () => {
+    const open = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!open));
+    nav?.classList.toggle('is-open', !open);
+  });
+  nav?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => {
+    btn?.setAttribute('aria-expanded', 'false');
+    nav.classList.remove('is-open');
+  }));
+</script>
+
+<style>
+  .site-header {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--paper) 92%, transparent);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--line);
+  }
+  .site-header__inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .brand { display: inline-flex; align-items: center; gap: 0.65rem; color: var(--ink); text-decoration: none; font-weight: 600; }
+  .brand__mark {
+    font-family: var(--font-mono); font-size: 0.8rem; font-weight: 500;
+    width: 34px; height: 34px; display: grid; place-items: center;
+    border: 1.5px solid var(--ink); border-radius: 2px;
+  }
+  .brand:hover .brand__mark { border-color: var(--accent); color: var(--accent-ink); }
+  .site-nav ul { display: flex; gap: 1.6rem; list-style: none; margin: 0; padding: 0; }
+  .site-nav li { margin: 0; }
+  .site-nav a { color: var(--ink-2); text-decoration: none; font-size: 0.95rem; padding-block: 0.4rem; border-bottom: 1.5px solid transparent; }
+  .site-nav a:hover { color: var(--ink); }
+  .site-nav a[aria-current='page'] { color: var(--ink); border-bottom-color: var(--accent); }
+  .nav-contact { color: var(--accent-ink) !important; }
+  .nav-toggle { display: none; background: none; border: 1px solid var(--line); border-radius: var(--radius); color: var(--ink); padding: 0.35rem; cursor: pointer; }
+
+  @media (max-width: 860px) {
+    .nav-toggle { display: inline-flex; }
+    .site-nav {
+      position: absolute; inset: 64px 0 auto 0;
+      background: var(--paper); border-bottom: 1px solid var(--line);
+      display: none;
+    }
+    .site-nav.is-open { display: block; }
+    .site-nav ul { flex-direction: column; gap: 0; padding: 0.5rem 1.25rem 1rem; }
+    .site-nav a { display: block; padding: 0.75rem 0; border-bottom: 1px solid var(--line); }
+    .site-nav a[aria-current='page'] { border-bottom-color: var(--line); color: var(--accent-ink); }
+  }
+</style>

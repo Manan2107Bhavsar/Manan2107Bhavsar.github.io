@@ -1,0 +1,34 @@
+---
+// A drawing-sheet title block. Every project page opens with one.
+interface Field { k: string; v: string }
+interface Props { fields: Field[]; sheet?: string }
+const { fields, sheet } = Astro.props;
+---
+<dl class="title-block" aria-label="Project details">
+  {fields.map((f) => (
+    <div class="tb-cell">
+      <dt>{f.k}</dt>
+      <dd>{f.v}</dd>
+    </div>
+  ))}
+  {sheet && (
+    <div class="tb-cell tb-cell--sheet">
+      <dt>Sheet</dt>
+      <dd>{sheet}</dd>
+    </div>
+  )}
+</dl>
+
+<style>
+  .title-block {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    border: 1.5px solid var(--ink);
+    margin: 0;
+    background: var(--paper);
+  }
+  .tb-cell { padding: 0.55rem 0.8rem; border-right: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); margin: 0; }
+  dt { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+  dd { margin: 0.15rem 0 0; font-family: var(--font-mono); font-size: 0.9rem; color: var(--ink); }
+  .tb-cell--sheet dd { color: var(--accent-ink); }
+</style>

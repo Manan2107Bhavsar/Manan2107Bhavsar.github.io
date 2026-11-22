@@ -1,0 +1,269 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionHead from '../components/SectionHead.astro';
+import TitleBlock from '../components/TitleBlock.astro';
+
+const fields = [
+  { k: 'Employer', v: 'City of Saskatoon' },
+  { k: 'Department', v: 'Construction & Design' },
+  { k: 'Role', v: 'Drafting Student' },
+  { k: 'Terms', v: 'May–Aug 2025 · Jan–Apr 2026 · May–Aug 2026' },
+  { k: 'Software', v: 'Civil 3D, AutoCAD, AutoLISP, C# .NET' },
+];
+
+const duties = [
+  'Prepared and revised civil infrastructure drawings in Civil 3D, including water and sewer pipe drawings and road resurfacing plans.',
+  'Updated permanent drawing records from as-built sketches and field data, to City drafting standards.',
+  'Maintained maps, registered plans and easements as new information came in.',
+  'Prepared work order documentation.',
+  'Responded to public inquiries on behalf of the department.',
+];
+---
+<Base
+  title="Co-op work: City of Saskatoon"
+  description="Three co-op work terms as a Drafting Student with the City of Saskatoon's Construction & Design Department: everyday civil drafting, and the AutoLISP and C# .NET tools I built to speed it up."
+>
+  <!-- Header -->
+  <section class="wrap section work-head">
+    <SectionHead as="h1" label="Co-op · 2025–2026" title="Co-op work: City of Saskatoon" />
+    <p class="lede">
+      Drafting Student in the Construction &amp; Design Department (Transportation &amp; Construction Division).
+      Three work terms in 2025–2026. After my first term I was rehired for an 8-month term in 2026.
+    </p>
+    <TitleBlock fields={fields} />
+  </section>
+
+  <!-- What I did -->
+  <section class="wrap section" aria-labelledby="did">
+    <SectionHead id="did" label="01 · Everyday work" title="What I did" />
+    <div class="prose">
+      <ul>
+        {duties.map((d) => <li>{d}</li>)}
+      </ul>
+      <p>
+        This everyday drafting came first. I was asked to come back for an 8-month term in late July 2025,
+        near the end of my first term, before I had built any tools.
+      </p>
+    </div>
+  </section>
+
+  <!-- Tools I built -->
+  <section class="wrap section" aria-labelledby="tools">
+    <SectionHead id="tools" label="02 · Automation" title="Tools I built" />
+    <p class="prose muted tools-intro">
+      Three tools for jobs I kept repeating at my desk. All three were built with AI assistance; how that works is below.
+    </p>
+
+    <!-- AutoSlope Labeller -->
+    <article class="tool" aria-labelledby="t-autoslope">
+      <header class="tool__head">
+        <p class="label">Tool A · C# .NET plug-in (DLL) for Civil 3D</p>
+        <h3 id="t-autoslope">AutoSlope Labeller</h3>
+      </header>
+      <div class="tool__body">
+        <div class="prose">
+          <p>
+            <strong>The problem.</strong> Construction drawings needed slope labels every 5 m along a road.
+            By hand, each label means picking the alignment, the layer, the style and the one-way or 2-point method, over and over for the whole road.
+          </p>
+          <p><strong>What it does</strong></p>
+          <ul>
+            <li>Places slope labels every 5 m along a road alignment.</li>
+            <li>Replaces picking the alignment, layer, style and method again for every single label.</li>
+          </ul>
+        </div>
+        <div class="figures" role="group" aria-label="AutoSlope Labeller results">
+          <div class="figure">
+            <div class="figure__value"><span class="visually-hidden">From </span><span class="from">15–20 min</span><span class="visually-hidden"> to </span><span class="nowrap">30–45 s</span></div>
+            <div class="figure__label">per 1–2 km road, labels every 5 m</div>
+          </div>
+          <div class="figure">
+            <div class="figure__value"><span class="visually-hidden">From </span><span class="from">a couple hundred</span><span class="visually-hidden"> to </span><span class="nowrap">10–15</span></div>
+            <div class="figure__label">clicks per road</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="story">
+        <p class="label">How it started</p>
+        <ol class="timeline">
+          <li>
+            <span class="timeline__when label">Feb–Mar 2026</span>
+            <span>I was labelling whole roads every 5 m on construction drawings. I got curious: if the software is just code, can I build something to ease this?</span>
+          </li>
+          <li>
+            <span class="timeline__when label">Research</span>
+            <span>I looked into how Civil 3D handles its data and which API I would need.</span>
+          </li>
+          <li>
+            <span class="timeline__when label">Friday, late March 2026</span>
+            <span>I went home with the idea and built it over the weekend, with AI assistance.</span>
+          </li>
+          <li>
+            <span class="timeline__when label">Monday morning</span>
+            <span>I showed it to the senior who had assigned me the drawings.</span>
+          </li>
+        </ol>
+        <p class="prose">Nobody asked me to build it. The seniors were impressed by how much time it saved.</p>
+      </div>
+    </article>
+
+    <!-- Candle -->
+    <article class="tool" aria-labelledby="t-candle">
+      <header class="tool__head">
+        <p class="label">Tool B · AutoLISP routine</p>
+        <h3 id="t-candle">Candle</h3>
+      </header>
+      <div class="tool__body">
+        <div class="prose">
+          <p>
+            <strong>The problem.</strong> Drawing a manhole in profile by hand takes several steps: the lines, the right layer, style and lineweight, and the labels.
+          </p>
+          <p><strong>What it does</strong></p>
+          <ul>
+            <li>Click a point and enter its elevation, then a second point and its elevation.</li>
+            <li>A third click draws the vertical “candle” for the manhole.</li>
+            <li>Puts it on the correct layer, style and lineweight, and adds the labels.</li>
+          </ul>
+        </div>
+        <div class="figures" role="group" aria-label="Candle results">
+          <div class="figure">
+            <div class="figure__value"><span class="visually-hidden">From </span><span class="from">~4–5 min</span><span class="visually-hidden"> to </span><span class="nowrap">under 30 s</span></div>
+            <div class="figure__label">per manhole in profile</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Pipe slope tool -->
+    <article class="tool" aria-labelledby="t-pipe">
+      <header class="tool__head">
+        <p class="label">Tool C · AutoLISP routine</p>
+        <h3 id="t-pipe">Pipe slope tool</h3>
+      </header>
+      <div class="tool__body">
+        <div class="prose">
+          <p>
+            <strong>The problem.</strong> Pipe slopes in profile were calculated by hand or copied, and each line was layered by hand.
+          </p>
+          <p><strong>What it does</strong></p>
+          <ul>
+            <li>Click a water main, sewer or storm pipe in profile.</li>
+            <li>It detects which system the pipe belongs to from its layer.</li>
+            <li>It calculates the slope and labels it as a percentage.</li>
+            <li>It flags any line that isn’t on the standard layer.</li>
+          </ul>
+        </div>
+        <div class="figures" role="group" aria-label="What the pipe slope tool checks">
+          <div class="figure">
+            <div class="figure__value">Slope %</div>
+            <div class="figure__label">calculated and labelled in one click</div>
+          </div>
+          <div class="figure">
+            <div class="figure__value">System</div>
+            <div class="figure__label">water main, sewer or storm, read from the layer</div>
+          </div>
+          <div class="figure">
+            <div class="figure__value">Layers</div>
+            <div class="figure__label">non-standard layers flagged, so standards are checked as I draft</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <div class="prose more">
+      <p>
+        In June and July 2026 I kept building more AutoLISP routines whenever a task felt tedious.
+        Some were adopted into the team’s workflow; others I kept for myself.
+        After I presented a couple of them, the senior colleague who maintains the team’s Civil 3D standards
+        recommended that I get VS Code and Microsoft Copilot access to build more, and I was given it in June 2026.
+      </p>
+    </div>
+  </section>
+
+  <!-- How I build them -->
+  <section class="wrap section" aria-labelledby="how">
+    <SectionHead id="how" label="03 · Process" title="How I build them" />
+    <div class="prose">
+      <p>
+        To be clear: the code in these tools is AI-assisted. I use Claude to plan, and an AI coding
+        assistant to generate the AutoLISP or C#: at home for AutoSlope, and Microsoft Copilot in VS Code at work since June 2026. My part is the problem, the logic,
+        finding the right API, testing and debugging in Civil 3D, and fitting the result to the City’s standards.
+      </p>
+      <ol class="steps">
+        <li><strong>Spot the repetitive task.</strong> I describe the idea to Claude, which helps me turn it into a roadmap.</li>
+        <li><strong>Generate the code.</strong> An AI coding assistant (now Microsoft Copilot in VS Code) generates the LISP or C# from that plan.</li>
+        <li><strong>Make it actually work.</strong> I find the right API, test it in Civil 3D (for example with VBADEBUG), debug it, and remove what isn’t needed.</li>
+        <li><strong>Fit it to the City.</strong> I set it up for the City’s layers, styles and drafting standards.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- What co-op taught me -->
+  <section class="wrap section" aria-labelledby="taught">
+    <SectionHead id="taught" label="04 · Takeaways" title="What co-op taught me" />
+    <ul class="lessons">
+      <li>
+        <h3>Theory started to make sense.</h3>
+        <p>What I had learned in class finally clicked once I was working on real drawings.</p>
+      </li>
+      <li>
+        <h3>Reliability earns trust first.</h3>
+        <p>Doing the everyday drafting carefully is what came first. Everything else came after.</p>
+      </li>
+      <li>
+        <h3>AI is only as useful as your understanding.</h3>
+        <p>The tools work because I understood the drafting task and the standards. Without that, the AI has nothing useful to build.</p>
+      </li>
+    </ul>
+
+    <p class="note label">
+      Tool demos and City drawings aren’t shown here because they belong to the City of Saskatoon.
+    </p>
+
+    <div class="btn-row">
+      <a class="btn" href="/resume/">See my resume</a>
+      <a class="btn btn--ghost" href="/projects/">School projects</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .work-head :global(.title-block) { margin-top: var(--space-3); }
+  .tools-intro { margin-bottom: var(--space-4); }
+
+  .tool { border: 1px solid var(--line-strong); background: var(--paper); margin-bottom: var(--space-4); }
+  .tool__head { padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--line); background: var(--paper-2); }
+  .tool__head .label { margin: 0 0 0.25rem; }
+  .tool__head h3 { margin: 0; font-size: var(--step-2); }
+  .tool__body { display: grid; gap: var(--space-3); padding: var(--space-3); }
+  .tool__body .figures { margin: 0; align-self: start; }
+
+  .story { border-top: 1px solid var(--line); padding: var(--space-3); }
+  .timeline { list-style: none; padding: 0; margin: var(--space-2) 0; max-width: var(--measure); border-left: 1px solid var(--accent); }
+  .timeline li { display: grid; gap: 0.15rem; padding: 0 0 var(--space-2) var(--space-3); position: relative; color: var(--ink-2); margin: 0; }
+  .timeline li::before { content: ''; position: absolute; left: -4px; top: 0.45em; width: 7px; height: 7px; background: var(--paper); border: 1px solid var(--accent); }
+  .timeline__when { color: var(--accent-ink); }
+
+  .more { margin-top: var(--space-2); }
+  .nowrap { white-space: nowrap; }
+  @media (max-width: 600px) {
+    .tool__head, .tool__body, .story { padding-inline: var(--space-2); }
+  }
+
+  .steps { padding-left: 1.9em; }
+  .steps li::marker { font-family: var(--font-mono); color: var(--accent-ink); }
+
+  .lessons { list-style: none; padding: 0; margin: 0 0 var(--space-4); display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .lessons li { background: var(--paper); padding: var(--space-3); margin: 0; }
+  .lessons h3 { margin-bottom: 0.4rem; }
+  .lessons p { margin: 0; color: var(--ink-2); }
+
+  .note { text-transform: none; letter-spacing: 0.02em; margin-bottom: var(--space-3); }
+
+  @media (min-width: 900px) {
+    .tool__body { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: var(--space-4); }
+    .tool__body .figures { grid-template-columns: 1fr; }
+    .lessons { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>

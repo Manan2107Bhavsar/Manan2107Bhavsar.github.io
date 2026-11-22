@@ -1,0 +1,81 @@
+---
+// Shared template for every project page (academic and side projects).
+// Order: back link -> title -> title block -> 3D viewer -> write-up (Markdown body) -> drawings/links.
+import type { CollectionEntry } from 'astro:content';
+import Base from './Base.astro';
+import TitleBlock from '../components/TitleBlock.astro';
+import ModelViewer from '../components/ModelViewer.astro';
+
+interface Props { project: CollectionEntry<'projects'>; sheet?: string }
+const { project, sheet } = Astro.props;
+const d = project.data;
+const back = d.kind === 'side' ? { href: '/side-projects/', label: 'All side projects' } : { href: '/projects/', label: 'All projects' };
+const fields = [
+  { k: 'Project', v: d.title },
+  { k: 'Discipline', v: d.discipline },
+  ...(d.course ? [{ k: 'Course', v: d.course }] : []),
+  { k: 'Date', v: d.term },
+  { k: 'Software', v: d.software.join(', ') },
+  ...(d.status ? [{ k: 'Status', v: d.status }] : []),
+];
+---
+<Base title={d.title} description={d.summary} image={d.poster}>
+  <article class="wrap project">
+    <a class="back label" href={back.href}>← {back.label}</a>
+    <header class="project__head">
+      <h1>{d.title}</h1>
+      <p class="lede">{d.summary}</p>
+      <TitleBlock fields={fields} sheet={sheet} />
+    </header>
+
+    {d.model && (
+      <div class="project__model">
+        <ModelViewer src={d.model} poster={d.poster} alt={`3D model of ${d.title}`} sizeMB={d.sizeMB} cameraOrbit={d.cameraOrbit} />
+      </div>
+    )}
+
+    {!d.model && d.poster && (
+      <figure class="project__poster grid-bg">
+        <img src={d.poster} alt={`${d.title}: ${d.drawings?.length ? 'from the drawing set' : 'overview'}`} loading="eager" decoding="async" />
+        {d.drawings?.length ? <figcaption class="label">From the drawing set · <a href={d.drawings[0].href} target="_blank" rel="noopener">open the PDF</a></figcaption> : null}
+      </figure>
+    )}
+
+    <div class="project__body prose">
+      <slot />
+    </div>
+
+    {(d.drawings?.length || d.links?.length) && (
+      <aside class="project__files">
+        {d.drawings?.length ? (
+          <div>
+            <p class="label">Drawings</p>
+            <ul>{d.drawings.map((x) => <li><a href={x.href} target="_blank" rel="noopener">{x.label} (PDF)</a></li>)}</ul>
+          </div>
+        ) : null}
+        {d.links?.length ? (
+          <div>
+            <p class="label">Links</p>
+            <ul>{d.links.map((x) => <li><a href={x.href} target="_blank" rel="noopener">{x.label}</a></li>)}</ul>
+          </div>
+        ) : null}
+      </aside>
+    )}
+  </article>
+</Base>
+
+<style>
+  .project { padding-block: var(--space-4) var(--space-5); }
+  .back { text-decoration: none; display: inline-block; margin-bottom: var(--space-3); }
+  .back:hover { color: var(--accent-ink); }
+  .project__head { display: grid; gap: var(--space-2); margin-bottom: var(--space-4); }
+  .project__head h1 { margin: 0; }
+  .project__model { margin-bottom: var(--space-4); }
+  .project__poster { margin: 0 0 var(--space-4); border: 1px solid var(--line-strong); background-color: var(--paper-2); }
+  .project__poster img { width: 100%; max-height: 640px; object-fit: contain; background: #fff; }
+  .project__poster figcaption { padding: 0.5rem 0.75rem; border-top: 1px solid var(--line); background: var(--paper); }
+  .project__body :global(h2) { font-size: var(--step-2); margin-top: var(--space-4); }
+  .project__body :global(h3) { margin-top: var(--space-3); }
+  .project__files { display: flex; flex-wrap: wrap; gap: var(--space-5); border-top: 1px solid var(--line); margin-top: var(--space-4); padding-top: var(--space-3); }
+  .project__files ul { list-style: none; padding: 0; margin: 0.4rem 0 0; }
+</style>

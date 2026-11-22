@@ -1,0 +1,241 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionHead from '../components/SectionHead.astro';
+
+const email = 'bhavsarmanan2107@gmail.com';
+const linkedin = 'https://www.linkedin.com/in/bhavsarmanan21072004';
+const github = 'https://github.com/Manan2107Bhavsar';
+
+const cityBullets = [
+  'On my own initiative, built AutoSlope Labeller, a C# .NET plug-in (DLL) for Civil 3D that places slope labels every 5 m along a road alignment. It cut labelling a 1–2 km road from 15–20 minutes and a couple hundred clicks to 30–45 seconds and 10–15 clicks. After I presented more of my tools, the senior colleague who maintains the team’s Civil 3D standards recommended I be given VS Code and Microsoft Copilot to build more.',
+  'Built AutoLISP routines for repetitive drafting tasks, including “Candle”, which draws a manhole in profile from picked points and elevations, labelled on the correct layer and style, cutting each manhole from about 4–5 minutes by hand to under 30 seconds.',
+  'Built a pipe slope tool for water main, sewer and storm pipes: one click calculates and labels the slope percentage, detects the pipe system from its layer, and flags any line not on the standard layer, so drafting standards are checked as the work is done.',
+  'Prepared and revised civil infrastructure drawings in Civil 3D, including water and sewer pipe drawings and road resurfacing plans.',
+  'Updated permanent drawing records from as-built sketches and field data, keeping them accurate and to City drafting standards.',
+  'Maintained maps, registered plans and easements as new information came in, and prepared work order documentation.',
+  'Responded to public inquiries on behalf of the department.',
+];
+
+const nofrillsBullets = [
+  'Supervise front-end staff and daily operations during shifts, keeping checkouts accurate and moving.',
+  'Handle customer concerns and cash accuracy.',
+  'Rehired each time I returned from a co-op term.',
+];
+
+const skills = [
+  { k: 'CAD and BIM', v: 'AutoCAD, Civil 3D, Revit, Autodesk Inventor, SolidWorks' },
+  { k: 'Automation', v: 'AutoLISP, C# .NET plug-ins for AutoCAD and Civil 3D, Civil 3D API, AI-assisted development (Claude, Microsoft Copilot)' },
+  { k: 'Drafting', v: 'Civil infrastructure drafting, as-builts, work orders, registered plans and easements, structural and mechanical drawings, drafting standards' },
+  { k: 'Other', v: 'GIS mapping, survey data interpretation, Excel, Blender, video editing' },
+];
+---
+<Base
+  title="Resume"
+  description="Resume of Manan Bhavsar: Engineering Design & Drafting Technology student at Saskatchewan Polytechnic, three co-op terms as a Drafting Student with the City of Saskatoon."
+>
+  <article class="wrap section resume">
+    <div class="resume__actions">
+      <button class="btn btn--ghost print-btn" type="button">Print / Save as PDF</button>
+    </div>
+
+    <header class="resume__head">
+      <SectionHead as="h1" label="Resume" title="Manan Bhavsar" />
+      <p class="resume__contact">
+        <span>Moose Jaw &amp; Saskatoon, SK</span>
+        <span aria-hidden="true">·</span>
+        <a href={`mailto:${email}`}>{email}</a>
+        <span aria-hidden="true">·</span>
+        <a href={linkedin} rel="noopener" target="_blank" data-print="linkedin.com/in/bhavsarmanan21072004">LinkedIn</a>
+        <span aria-hidden="true">·</span>
+        <a href={github} rel="noopener" target="_blank" data-print="github.com/Manan2107Bhavsar">GitHub</a>
+      </p>
+    </header>
+
+    <section class="r-sec" aria-labelledby="r-profile">
+      <h2 id="r-profile">Profile</h2>
+      <p class="r-profile">
+        Engineering Design &amp; Drafting Technology student (graduating April 2027) who completed three co-op work terms
+        as a Drafting Student with the City of Saskatoon, and was rehired for an 8-month term after the first one.
+        Prepares and updates civil infrastructure drawings in AutoCAD and Civil 3D, and builds AutoLISP and .NET tools
+        that automate repetitive drafting tasks. Holds a previous diploma in Mechanical Engineering (First Class with Distinction),
+        plus CSWP and Autodesk AutoCAD certifications.
+      </p>
+    </section>
+
+    <section class="r-sec" aria-labelledby="r-exp">
+      <h2 id="r-exp">Experience</h2>
+
+      <div class="r-row">
+        <p class="r-when">May 2025 – Aug 2025<br />Jan 2026 – Aug 2026</p>
+        <div class="r-what">
+          <h3>Drafting Student <span class="r-org">· City of Saskatoon</span></h3>
+          <p class="r-sub">Construction &amp; Design Department, Transportation &amp; Construction Division · Saskatoon, SK · three co-op work terms</p>
+          <ul>{cityBullets.map((b) => <li>{b}</li>)}</ul>
+        </div>
+      </div>
+
+      <div class="r-row">
+        <p class="r-when">Nov 2024 – present</p>
+        <div class="r-what">
+          <h3>Front End Supervisor <span class="r-org">· Muhammad’s No Frills</span></h3>
+          <p class="r-sub">Moose Jaw, SK · part-time between co-op terms: Nov 2024 – Mar 2025, Sep – Dec 2025, Sep 2026 – present</p>
+          <ul>{nofrillsBullets.map((b) => <li>{b}</li>)}</ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="r-sec" aria-labelledby="r-edu">
+      <h2 id="r-edu">Education</h2>
+
+      <div class="r-row">
+        <p class="r-when">Sep 2024 – Apr 2027</p>
+        <div class="r-what">
+          <h3>Engineering Design &amp; Drafting Technology (Diploma) <span class="r-org">· Saskatchewan Polytechnic</span></h3>
+          <p class="r-sub">Moose Jaw campus · graduating April 2027</p>
+          <p class="r-text">
+            Coursework: civil drafting and design (storm sewer network design), structural drafting, industrial building
+            mechanical (Revit MEP), BIM, GIS, surveying, product manufacturing drafting (Inventor), applied mechanics of
+            materials, fluid mechanics, electrical.
+          </p>
+        </div>
+      </div>
+
+      <div class="r-row">
+        <p class="r-when">2020 – 2023</p>
+        <div class="r-what">
+          <h3>Diploma in Mechanical Engineering <span class="r-org">· Gujarat Technological University</span></h3>
+          <p class="r-sub">Gujarat, India · First Class with Distinction</p>
+          <p class="r-text">Final-year project: Electromagnetic Braking System.</p>
+        </div>
+      </div>
+
+      <div class="r-row">
+        <p class="r-when"></p>
+        <div class="r-what">
+          <h3>3D CAD Software Training <span class="r-org">· Sopan Institute of Engineering &amp; Design</span></h3>
+          <p class="r-sub">Ahmedabad, India</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="r-sec" aria-labelledby="r-skills">
+      <h2 id="r-skills">Technical skills</h2>
+      <dl class="r-skills">
+        {skills.map((s) => (
+          <div class="r-row">
+            <dt class="r-when">{s.k}</dt>
+            <dd class="r-what">{s.v}</dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+
+    <section class="r-sec" aria-labelledby="r-cert">
+      <h2 id="r-cert">Certifications</h2>
+      <div class="r-row">
+        <p class="r-when">Jan 2024</p>
+        <p class="r-what">Certified SolidWorks Professional (CSWP), Mechanical Design</p>
+      </div>
+      <div class="r-row">
+        <p class="r-when">Sep 2023</p>
+        <p class="r-what">Autodesk Certified User, AutoCAD</p>
+      </div>
+    </section>
+
+    <section class="r-sec" aria-labelledby="r-vol">
+      <h2 id="r-vol">Volunteering</h2>
+      <div class="r-row">
+        <p class="r-when">Mar 2026 – Jul 2026</p>
+        <div class="r-what">
+          <h3>Volunteer <span class="r-org">· Ganbatte Convention Inc.</span></h3>
+          <p class="r-sub">Saskatoon, SK · non-profit anime convention</p>
+          <ul>
+            <li>Edited promotional videos for the social media team.</li>
+            <li>At the convention, helped at the front desk (registration and wristbands), ran cosplay prop and weapons checks, and set up vendor tables.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="r-sec" aria-labelledby="r-lead">
+      <h2 id="r-lead">Leadership and languages</h2>
+      <div class="r-row">
+        <p class="r-when">Leadership</p>
+        <p class="r-what">Organized and led an inter-college volleyball team to a tournament win (India).</p>
+      </div>
+      <div class="r-row">
+        <p class="r-when">Languages</p>
+        <p class="r-what">English, Hindi, Gujarati</p>
+      </div>
+    </section>
+
+    <p class="r-refs">References available upon request.</p>
+  </article>
+</Base>
+
+<script>
+  document.querySelector<HTMLButtonElement>('.print-btn')?.addEventListener('click', () => window.print());
+</script>
+
+<style>
+  .resume { max-width: 900px; }
+  .resume__actions { display: flex; justify-content: flex-end; margin-bottom: var(--space-2); }
+  .resume__head { margin-bottom: var(--space-3); }
+  .resume__head :global(.section-head) { margin-bottom: var(--space-2); }
+  .resume__contact { display: flex; flex-wrap: wrap; gap: 0.25rem 0.6rem; font-family: var(--font-mono); font-size: 0.9rem; color: var(--ink-2); margin: 0; }
+
+  .r-sec { border-top: 1px solid var(--line-strong); padding-top: var(--space-2); margin-top: var(--space-3); }
+  .r-sec h2 { font-family: var(--font-mono); font-size: 0.85rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-ink); margin: 0 0 var(--space-2); }
+  .r-profile { color: var(--ink-2); max-width: var(--measure); }
+
+  .r-row { display: grid; grid-template-columns: 1fr; gap: 0.2rem; margin: 0 0 var(--space-3); break-inside: avoid; page-break-inside: avoid; }
+  .r-when { font-family: var(--font-mono); font-size: 0.82rem; color: var(--ink-3); margin: 0; line-height: 1.5; }
+  .r-what { margin: 0; color: var(--ink-2); }
+  .r-what h3 { font-size: 1.05rem; color: var(--ink); margin: 0 0 0.15rem; }
+  .r-org { font-weight: 400; color: var(--ink-2); }
+  .r-sub { font-size: var(--step--1); color: var(--ink-3); margin: 0 0 0.5rem; }
+  .r-text { margin: 0; }
+  .r-what ul { margin: 0; }
+  .r-what li + li { margin-top: 0.3em; }
+  .r-skills { margin: 0; }
+  .r-skills .r-row { margin-bottom: var(--space-1); }
+  .r-skills dd { margin: 0; }
+  .r-refs { border-top: 1px solid var(--line-strong); padding-top: var(--space-2); margin-top: var(--space-3); color: var(--ink-3); font-style: italic; }
+
+  @media (min-width: 720px) {
+    .r-row { grid-template-columns: 10.5rem minmax(0, 1fr); gap: var(--space-3); }
+  }
+
+  @page { margin: 14mm 14mm 16mm; }
+
+  @media print {
+    :global(:root) {
+      --paper: #fff; --paper-2: #fff; --ink: #000; --ink-2: #000; --ink-3: #333;
+      --line: #999; --line-strong: #666; --accent: #000; --accent-ink: #000;
+    }
+    :global(html), :global(body) { background: #fff !important; color: #000 !important; font-size: 10.5pt; line-height: 1.4; }
+    :global(.site-header), :global(.site-footer), :global(.site-nav), :global(.skip) { display: none !important; }
+    :global(main) { padding: 0; }
+
+    .resume { width: 100%; max-width: none; margin: 0; padding: 0; }
+    .resume__actions { display: none; }
+    .resume__head :global(.label), .resume__head :global(.dim) { display: none; }
+    .resume__head :global(h1) { font-size: 20pt; margin: 0 0 4pt; }
+    .resume__contact { font-size: 9.5pt; color: #000; }
+    .resume a { color: #000; text-decoration: none; }
+    .resume a[data-print]::after { content: ' (' attr(data-print) ')'; }
+
+    .r-sec { margin-top: 10pt; padding-top: 6pt; border-top-color: #000; }
+    .r-sec h2 { font-size: 9.5pt; color: #000; margin-bottom: 6pt; break-after: avoid; page-break-after: avoid; }
+    .r-row { grid-template-columns: 9.6rem minmax(0, 1fr); gap: 10pt; margin-bottom: 8pt; }
+    .r-when { font-size: 9pt; color: #333; white-space: nowrap; }
+    .r-what, .r-profile, .r-sub, .r-org { color: #000; }
+    .r-what h3 { font-size: 11pt; }
+    .r-sub { font-size: 9.5pt; margin-bottom: 3pt; }
+    .r-what li { break-inside: avoid; page-break-inside: avoid; }
+    .r-row:has(ul) { break-inside: auto; page-break-inside: auto; }
+    .r-what h3, .r-sub { break-after: avoid; page-break-after: avoid; }
+    .r-profile { max-width: none; }
+    .r-refs { color: #000; border-top-color: #000; }
+  }
+</style>

@@ -1,0 +1,138 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionHead from '../components/SectionHead.astro';
+
+const timeline = [
+  { date: '2020–2023', text: 'Diploma in Mechanical Engineering, Gujarat Technological University. First Class with Distinction.' },
+  { date: 'Sep 2023', text: 'Autodesk Certified User, AutoCAD.' },
+  { date: 'Jan 2024', text: 'Certified SolidWorks Professional (CSWP), Mechanical Design.' },
+  { date: 'Sep 2024', text: 'Started Engineering Design & Drafting Technology at Saskatchewan Polytechnic.' },
+  { date: 'May–Aug 2025', text: 'Co-op term 1, Drafting Student, City of Saskatoon.' },
+  { date: 'Jan–Aug 2026', text: 'Co-op terms 2 and 3, rehired for an 8-month term.' },
+  { date: 'Mar–Jul 2026', text: 'Volunteer, Ganbatte Con, Saskatoon.' },
+  { date: 'Apr 2027', text: 'Graduation (expected).' },
+];
+---
+<Base
+  title="About"
+  description="About Manan Bhavsar: from reading his father's machine drawings in Gujarat to drafting for the City of Saskatoon as an EDDT student at Saskatchewan Polytechnic."
+>
+  <section class="section wrap">
+    <SectionHead as="h1" label="About" title="I grew up reading my father's machine drawings." />
+    <p class="lede">
+      I'm Manan Bhavsar, a drafting and design student at Saskatchewan Polytechnic. I grew up in Gujarat, India,
+      came to Canada in 2023, and split my time between Moose Jaw for school and Saskatoon for co-op.
+    </p>
+  </section>
+
+  <section class="section wrap about" aria-labelledby="story-title">
+    <div class="about__story">
+      <SectionHead label="Story" title="How I got here" id="story-title" />
+      <div class="prose">
+        <p>
+          My father was a draftsman and assistant manager at a company in Gujarat that built vacuum-packing
+          machines. He was an all-rounder there: he handled the machine drawings and the maintenance. From
+          grade 7 he would hand me large machine drawings and ask what I could read from them. He took me to
+          his office and on maintenance visits to client factories, and I got curious about how machines
+          convert energy.
+        </p>
+        <p>
+          After grade 10 I chose mechanical engineering. I finished a Diploma in Mechanical Engineering at
+          Gujarat Technological University with First Class with Distinction, and I topped the diploma's one
+          CAD course. My final-year project was an electromagnetic braking system. After that I trained in
+          3D CAD software at the Sopan Institute of Engineering &amp; Design in Ahmedabad.
+        </p>
+        <p>
+          I wanted to study drafting properly, and I couldn't find the program I was looking for in India, so
+          I looked at Canada. In April 2024 I chose Saskatchewan Polytechnic's EDDT program over two offers in
+          Ontario. It teaches the software used across the industry: Revit for architectural, Civil 3D for civil
+          and Inventor for mechanical. It's in Saskatchewan. And its paid co-op meant I could earn while I learn.
+        </p>
+        <p>
+          Co-op with the City of Saskatoon is where the theory started to make sense. Drafting real water and
+          sewer pipe drawings and road resurfacing plans to City standards connected what I had learned in
+          class to real work.
+        </p>
+        <p>
+          When a drafting task got repetitive, I started building small tools for it: AutoLISP routines and
+          a Civil 3D plug-in. Some of them became part of the team's workflow, and some I kept for myself.
+          The full story is on my <a href="/work/">co-op page</a>.
+        </p>
+        <p>
+          My class is the last EDDT cohort at Sask Polytech; the program closes after we graduate.
+        </p>
+        <p>
+          My father told me I could become a great CAD person and surpass him one day. I'm still
+          working on the first part.
+        </p>
+      </div>
+    </div>
+
+    <aside class="about__timeline" aria-labelledby="timeline-title">
+      <p class="label" id="timeline-title">Timeline</p>
+      <ol class="timeline">
+        {timeline.map((t) => (
+          <li>
+            <span class="timeline__date">{t.date}</span>
+            <span>{t.text}</span>
+          </li>
+        ))}
+      </ol>
+    </aside>
+  </section>
+
+  <section class="section wrap cols">
+    <div>
+      <SectionHead label="Off the drawing board" title="Outside drafting" id="outside-title" />
+      <ul class="list">
+        <li>
+          <strong>Front End Supervisor (and cashier), Muhammad's No Frills, Moose Jaw.</strong>
+          Part-time between co-op terms. They rehired me each time I came back.
+        </li>
+        <li>
+          <strong>Volunteer, Ganbatte Con</strong>, a non-profit anime convention in Saskatoon. I edited
+          promotional videos for the social media team. At the convention I helped the front desk with
+          registration and wristbands, ran cosplay prop and weapons checks, and set up vendor tables.
+        </li>
+        <li>
+          <strong>Volleyball.</strong> In India I organized an inter-college volleyball team and led it to a
+          tournament win.
+        </li>
+        <li><strong>Languages:</strong> English, Hindi and Gujarati.</li>
+        <li><strong>Also:</strong> Blender and video editing.</li>
+      </ul>
+    </div>
+    <div>
+      <SectionHead label="Credentials" title="Certifications" id="certs-title" />
+      <ul class="list">
+        <li><strong>Certified SolidWorks Professional (CSWP)</strong>, Mechanical Design <span class="label">Jan 2024</span></li>
+        <li><strong>Autodesk Certified User</strong>, AutoCAD <span class="label">Sep 2023</span></li>
+      </ul>
+      <p class="muted next">
+        See my <a href="/resume/">resume</a>, or <a href="#contact">get in touch</a>.
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .about { display: grid; gap: var(--space-4); }
+  @media (min-width: 960px) {
+    .about { grid-template-columns: minmax(0, 1fr) 320px; gap: var(--space-5); align-items: start; }
+    .about__timeline { position: sticky; top: var(--space-4); }
+  }
+  .about__timeline { border-top: 1px solid var(--line-strong); padding-top: var(--space-2); }
+
+  .timeline { list-style: none; padding: 0; margin: var(--space-2) 0 0; border-left: 1px solid var(--line); }
+  .timeline li { position: relative; margin: 0; padding: 0 0 var(--space-2) var(--space-3); display: grid; gap: 0.15rem; color: var(--ink-2); font-size: 0.95rem; }
+  .timeline li::before { content: ''; position: absolute; left: -4px; top: 0.45em; width: 7px; height: 7px; border: 1px solid var(--accent); background: var(--paper); }
+  .timeline__date { font-family: var(--font-mono); font-size: 0.8rem; color: var(--ink); }
+
+  .cols { display: grid; gap: var(--space-4); }
+  @media (min-width: 860px) { .cols { grid-template-columns: 1.4fr 1fr; gap: var(--space-5); } }
+  .list { padding: 0; list-style: none; max-width: var(--measure); }
+  .list li { color: var(--ink-2); padding-block: 0.6rem; border-top: 1px solid var(--line); margin: 0; }
+  .list strong { color: var(--ink); }
+  .list .label { margin-left: 0.4rem; white-space: nowrap; }
+  .next { margin-top: var(--space-3); }
+</style>

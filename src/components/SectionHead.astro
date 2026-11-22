@@ -1,0 +1,25 @@
+---
+// Section heading with a small label and a dimension line that "draws" itself.
+interface Props { label?: string; title: string; id?: string; as?: 'h1' | 'h2' }
+const { label, title, id, as = 'h2' } = Astro.props;
+const Tag = as;
+---
+<div class="section-head">
+  {label && <p class="label">{label}</p>}
+  <Tag id={id}>{title}</Tag>
+  <svg class="dim" viewBox="0 0 200 10" preserveAspectRatio="none" aria-hidden="true">
+    <line x1="0" y1="1" x2="0" y2="9" />
+    <line class="dim__run" x1="0" y1="5" x2="200" y2="5" />
+    <line x1="200" y1="1" x2="200" y2="9" />
+  </svg>
+</div>
+
+<style>
+  .section-head { margin-bottom: var(--space-3); }
+  .section-head :global(h1), .section-head :global(h2) { margin-bottom: 0.6rem; }
+  .dim { width: 120px; height: 10px; overflow: visible; }
+  .dim line { stroke: var(--accent); stroke-width: 1.25; vector-effect: non-scaling-stroke; }
+  .dim__run { stroke-dasharray: 200; stroke-dashoffset: 0; animation: draw 0.9s ease-out both; }
+  @keyframes draw { from { stroke-dashoffset: 200; } to { stroke-dashoffset: 0; } }
+  @media (prefers-reduced-motion: reduce) { .dim__run { animation: none; } }
+</style>

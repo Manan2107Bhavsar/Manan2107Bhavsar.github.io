@@ -1,0 +1,162 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import SectionHead from '../components/SectionHead.astro';
+import ModelViewer from '../components/ModelViewer.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+
+// Featured work: preferred ids first (only the ones that exist),
+// then fill up to 3 with academic projects by `order`.
+const all = await getCollection('projects');
+const wanted = ['pump-base', 'storm-network', 'livesync'];
+const featured: CollectionEntry<'projects'>[] = wanted
+  .map((id) => all.find((p) => p.id === id))
+  .filter((p): p is CollectionEntry<'projects'> => Boolean(p));
+const fill = all
+  .filter((p) => p.data.kind === 'academic' && !featured.some((f) => f.id === p.id))
+  .sort((a, b) => a.data.order - b.data.order);
+while (featured.length < 3 && fill.length) featured.push(fill.shift()!);
+
+const disciplines = [
+  {
+    name: 'Civil',
+    line: 'Pipe networks, road resurfacing plans, drainage areas and as-built records.',
+    software: ['Civil 3D', 'AutoCAD'],
+  },
+  {
+    name: 'Mechanical',
+    line: 'Assemblies, weldments and full drawing sets ready for manufacturing.',
+    software: ['Inventor', 'SolidWorks'],
+  },
+  {
+    name: 'Architectural',
+    line: 'Building models with mechanical systems and structure coordinated inside them.',
+    software: ['Revit'],
+  },
+];
+---
+<Base
+  description="Manan Bhavsar: drafting and design student at Saskatchewan Polytechnic. Civil, mechanical and architectural projects, three co-op terms with the City of Saskatoon, and the tools I build to make drafting faster."
+>
+  <section class="hero grid-bg" aria-labelledby="hero-title">
+    <div class="wrap hero__inner">
+      <div class="hero__text">
+        <p class="label">Drafting &amp; design · Saskatchewan Polytechnic</p>
+        <h1 id="hero-title">I draft civil, mechanical and architectural projects, and I build tools that make drafting faster.</h1>
+        <p class="lede">
+          I'm Manan Bhavsar, an Engineering Design &amp; Drafting Technology student graduating in April 2027.
+          I've worked three co-op terms as a Drafting Student with the City of Saskatoon.
+        </p>
+        <div class="btn-row">
+          <a class="btn" href="/projects/">See my projects</a>
+          <a class="btn btn--ghost" href="/work/">Co-op work</a>
+        </div>
+      </div>
+      <div class="hero__model">
+        <ModelViewer
+          src="/models/pump-base.glb"
+          poster="/posters/pump-base.webp"
+          sizeMB={1.9}
+          alt="3D model of my pump base assembly"
+          height="440px"
+        />
+        <p class="label hero__caption">
+          Pump base assembly · Inventor · <a href="/projects/pump-base/">See the project</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap facts" aria-label="At a glance">
+    <div class="figures">
+      <div class="figure">
+        <div class="figure__value">3 co-op terms</div>
+        <div class="figure__label">Drafting Student, City of Saskatoon</div>
+      </div>
+      <div class="figure">
+        <div class="figure__value"><span class="from">15–20 min</span>30–45 s</div>
+        <div class="figure__label">AutoSlope Labeller, per 1–2 km road</div>
+      </div>
+      <div class="figure">
+        <div class="figure__value">CSWP</div>
+        <div class="figure__label">Certified SolidWorks Professional</div>
+      </div>
+      <div class="figure">
+        <div class="figure__value">3 disciplines</div>
+        <div class="figure__label">Civil, mechanical, architectural</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap" aria-labelledby="featured-title">
+    <SectionHead label="Selected work" title="Featured work" id="featured-title" />
+    {featured.length > 0 && (
+      <div class="cards">
+        {featured.map((p) => <ProjectCard project={p} />)}
+      </div>
+    )}
+    <p class="more"><a href="/projects/">All projects</a> · <a href="/side-projects/">Side projects</a></p>
+
+    <aside class="tool" aria-labelledby="tool-title">
+      <p class="label">From my co-op · City of Saskatoon</p>
+      <h3 id="tool-title">AutoSlope Labeller</h3>
+      <div class="prose">
+        <p>
+          On construction drawings I was labelling the slope of whole roads every 5 m, one label at a time.
+          A 1–2 km road took 15–20 minutes and a couple hundred clicks. Nobody asked me to, but I built a
+          Civil 3D plug-in for it over a weekend, with AI assistance, and the same road now takes 30–45 seconds
+          and 10–15 clicks.
+        </p>
+      </div>
+      <a class="btn btn--ghost" href="/work/">Read the co-op story</a>
+    </aside>
+  </section>
+
+  <section class="section wrap" aria-labelledby="disciplines-title">
+    <SectionHead label="Disciplines" title="What I work in" id="disciplines-title" />
+    <ul class="disc">
+      {disciplines.map((d) => (
+        <li class="disc__item">
+          <h3>{d.name}</h3>
+          <p>{d.line}</p>
+          <ul class="tags" aria-label={`${d.name} software`}>
+            {d.software.map((s) => <li><span class="tag">{s}</span></li>)}
+          </ul>
+          <a href={`/projects/?d=${d.name}`}>{d.name} projects</a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="section wrap nudge">
+    <p>Have a drafting role or co-op opening, or curious about one of my tools? <a href="#contact">Send me a message</a>.</p>
+  </section>
+</Base>
+
+<style>
+  .hero { border-bottom: 1px solid var(--line); }
+  .hero__inner { display: grid; gap: var(--space-4); padding-block: var(--space-4) var(--space-5); align-items: center; }
+  .hero h1 { max-width: 22ch; }
+  .hero .lede { margin-bottom: var(--space-3); }
+  .hero__caption { margin: 0.6rem 0 0; }
+  @media (min-width: 900px) {
+    .hero__inner { grid-template-columns: 1fr 1.05fr; padding-block: var(--space-5); }
+  }
+
+  .facts { padding-top: var(--space-4); }
+  .facts .figures { margin: 0; }
+
+  .cards { display: grid; gap: var(--space-3); grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
+  .more { margin: var(--space-3) 0 0; font-size: var(--step--1); }
+
+  .tool { margin-top: var(--space-4); padding: var(--space-3); border: 1px solid var(--line); border-left: 3px solid var(--accent); background: var(--paper-2); }
+  .tool h3 { margin-top: 0.4rem; }
+
+  .disc { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-3); }
+  .disc__item { margin: 0; padding-top: var(--space-2); border-top: 1px solid var(--line-strong); display: grid; gap: 0.6rem; align-content: start; }
+  .disc__item h3, .disc__item p { margin: 0; }
+  .disc__item p { color: var(--ink-2); }
+  @media (min-width: 760px) { .disc { grid-template-columns: repeat(3, 1fr); } }
+
+  .nudge p { font-size: var(--step-1); margin: 0; }
+</style>

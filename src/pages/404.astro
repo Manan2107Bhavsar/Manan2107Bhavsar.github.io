@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro';
+
+const sheets = [
+  { href: '/', label: 'Home' },
+  { href: '/work/', label: 'Co-op work' },
+  { href: '/projects/', label: 'Projects' },
+  { href: '/side-projects/', label: 'Side projects' },
+  { href: '/about/', label: 'About' },
+  { href: '/resume/', label: 'Resume' },
+];
+---
+<Base title="Page not found" description="This page doesn't exist on Manan Bhavsar's portfolio.">
+  <section class="wrap section nf grid-bg">
+    <p class="label">Error 404 · Sheet not found</p>
+    <h1>This sheet isn’t in the set.</h1>
+    <p class="lede">The page may have moved, or the link has a typo. Try one of these instead.</p>
+    <div class="btn-row">
+      <a class="btn" href="/">Back to home</a>
+      <a class="btn btn--ghost" href="/projects/">See projects</a>
+    </div>
+
+    <nav class="nf__index" aria-label="Sheet index">
+      <p class="label">Sheet index</p>
+      <ol>
+        {sheets.map((s, i) => (
+          <li><span class="label">{String(i + 1).padStart(2, '0')}</span><a href={s.href}>{s.label}</a></li>
+        ))}
+      </ol>
+    </nav>
+  </section>
+</Base>
+
+<style>
+  .nf { padding-block: var(--space-6); }
+  .nf h1 { margin-top: 0.4rem; }
+  .nf .btn-row { margin-top: var(--space-3); }
+  .nf__index { margin-top: var(--space-5); max-width: 22rem; border: 1.5px solid var(--ink); background: var(--paper); padding: var(--space-2) var(--space-3); }
+  .nf__index ol { list-style: none; padding: 0; margin: var(--space-1) 0 0; }
+  .nf__index li { display: flex; gap: 1rem; align-items: baseline; padding: 0.35rem 0; border-top: 1px solid var(--line); margin: 0; }
+  .nf__index li:first-child { border-top: 0; }
+</style>
