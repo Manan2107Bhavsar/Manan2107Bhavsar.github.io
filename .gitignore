@@ -4,3 +4,8 @@ dist/
 _exports/
 .DS_Store
 Thumbs.db
+
+# local planning and review material
+BRIEF.md
+PRODUCT.md
+.impeccable/

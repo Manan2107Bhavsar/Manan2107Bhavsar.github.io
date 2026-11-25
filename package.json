@@ -1,7 +1,7 @@
 {
   "name": "manan-bhavsar-portfolio",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "private": true,
   "scripts": {
     "dev": "astro dev",
@@ -9,9 +9,12 @@
     "preview": "astro preview"
   },
   "dependencies": {
-    "@fontsource/ibm-plex-mono": "^5.1.0",
-    "@fontsource/ibm-plex-sans": "^5.1.0",
+    "@fontsource-variable/archivo": "^5.3.0",
+    "@fontsource-variable/geist": "^5.3.0",
+    "@fontsource-variable/geist-mono": "^5.3.0",
     "@google/model-viewer": "^4.4.0",
-    "astro": "^5.0.0"
+    "astro": "^5.0.0",
+    "gsap": "^3.15.1",
+    "unicornstudio": "^2.6.1"
   }
 }

@@ -8,13 +8,14 @@ const projects = (await getCollection('projects', (p) => p.data.kind === 'side')
 const lede = 'Things I build for fun and out of curiosity, outside my courses: small tools that connect the software I use, and experiments to see what it can do.';
 ---
 <Base title="Side projects" description={lede}>
-  <section class="wrap section">
-    <SectionHead as="h1" label="Outside the classroom" title="Side projects" />
-    <p class="lede">{lede}</p>
+  <section class="wrap section page-top">
+    <SectionHead as="h1" title="Side projects">
+      <p>{lede}</p>
+    </SectionHead>
 
     <ul class="grid" role="list">
       {projects.map((p) => (
-        <li><ProjectCard project={p} headingLevel="h2" /></li>
+        <li><ProjectCard project={p} headingLevel="h2" group="grid" /></li>
       ))}
     </ul>
 
@@ -23,8 +24,7 @@ const lede = 'Things I build for fun and out of curiosity, outside my courses: s
 </Base>
 
 <style>
-  .lede { margin-bottom: var(--space-4); }
-  .grid { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-3); grid-template-columns: 1fr; }
+  .grid { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-5) var(--space-4); grid-template-columns: 1fr; align-items: start; }
   .grid > li { margin: 0; }
   @media (min-width: 640px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (min-width: 980px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }

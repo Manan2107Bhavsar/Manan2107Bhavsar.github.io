@@ -1,41 +1,69 @@
 ---
+// One exhibit: a model on a plinth, or a drawing in a frame, with its wall label.
 import type { CollectionEntry } from 'astro:content';
-interface Props { project: CollectionEntry<'projects'>; headingLevel?: 'h2' | 'h3' }
-const { project, headingLevel = 'h3' } = Astro.props;
+interface Props { project: CollectionEntry<'projects'>; headingLevel?: 'h2' | 'h3'; group?: string; size?: 'large' | 'normal' }
+const { project, headingLevel = 'h3', group, size = 'normal' } = Astro.props;
 const d = project.data;
 const href = d.kind === 'side' ? `/side-projects/${project.id}/` : `/projects/${project.id}/`;
 const H = headingLevel;
+const onPlinth = Boolean(d.model);
 ---
-<article class="card" data-discipline={d.discipline}>
-  <a class="card__link" href={href}>
-    <div class="card__media grid-bg">
+<article class:list={['exhibit', `exhibit--${size}`, onPlinth ? 'exhibit--plinth' : 'exhibit--frame']} data-reveal data-reveal-group={group}>
+  <a class="exhibit__link" href={href}>
+    <div class="exhibit__stage">
       {d.poster
-        ? <img src={d.poster} alt="" loading="lazy" decoding="async" />
-        : <span class="card__placeholder label">{d.discipline}</span>}
-      {d.model && <span class="card__badge label">3D</span>}
+        ? <img class="exhibit__img" src={d.poster} alt="" loading="lazy" decoding="async" />
+        : <span class="exhibit__placeholder">{d.discipline}</span>}
+      {onPlinth && <span class="exhibit__plinth" aria-hidden="true"></span>}
     </div>
-    <div class="card__body">
-      <p class="label">{d.discipline} · {d.term}</p>
-      <H class="card__title">{d.title}</H>
-      <p class="card__summary">{d.summary}</p>
-      <ul class="tags" aria-label="Software">
-        {d.software.slice(0, 4).map((s) => <li><span class="tag">{s}</span></li>)}
-      </ul>
+    <div class="exhibit__label">
+      <H class="exhibit__title">{d.title}</H>
+      <p class="exhibit__summary">{d.summary}</p>
+      <p class="exhibit__meta">
+        {d.discipline} · {d.term} · {d.software.slice(0, 2).join(', ')}
+        {d.model && <span class="exhibit__3d"> · Turn it in 3D</span>}
+        {d.status && <span> · {d.status}</span>}
+      </p>
     </div>
   </a>
 </article>
 
 <style>
-  .card { border: 1px solid var(--line); background: var(--paper); transition: border-color 0.15s, transform 0.15s; }
-  .card:hover { border-color: var(--ink); }
-  .card__link { display: flex; flex-direction: column; height: 100%; color: inherit; text-decoration: none; }
-  .card__media { position: relative; aspect-ratio: 4 / 3; border-bottom: 1px solid var(--line); display: grid; place-items: center; overflow: hidden; }
-  .card__media img { width: 100%; height: 100%; object-fit: contain; padding: 0.75rem; transition: transform 0.4s ease; }
-  .card:hover .card__media img { transform: scale(1.03); }
-  .card__badge { position: absolute; top: 0.6rem; right: 0.6rem; background: var(--ink); color: var(--paper); padding: 0.15rem 0.45rem; letter-spacing: 0.08em; }
-  .card__body { padding: var(--space-2) var(--space-2) var(--space-3); display: grid; gap: 0.5rem; }
-  .card__title { font-size: var(--step-1); margin: 0; }
-  .card:hover .card__title { color: var(--accent-ink); }
-  .card__summary { color: var(--ink-2); font-size: 0.95rem; margin: 0; }
-  @media (prefers-reduced-motion: reduce) { .card__media img { transition: none; } }
+  .exhibit { margin: 0; }
+  .exhibit__link { display: flex; flex-direction: column; height: 100%; color: inherit; text-decoration: none; }
+  .exhibit__link:hover { color: inherit; text-decoration: none; }
+  .exhibit__stage { position: relative; display: grid; place-items: end center; aspect-ratio: 4 / 3; }
+  .exhibit__img {
+    position: relative; z-index: 1; width: 100%; height: 100%; object-fit: contain;
+    transition: transform 0.8s var(--ease-out), filter 0.8s var(--ease-out);
+  }
+  .exhibit__placeholder { align-self: center; color: var(--ink-3); }
+
+  /* models stand on a white plinth */
+  .exhibit--plinth .exhibit__img { height: 92%; margin-bottom: 6%; }
+  .exhibit__plinth {
+    position: absolute; left: 12%; right: 12%; bottom: 0; height: 13%;
+    background: linear-gradient(var(--plinth), #f7f7f4);
+    border: 1px solid var(--line); border-bottom: 0;
+    box-shadow: var(--shadow-plinth);
+  }
+  .exhibit--plinth:hover .exhibit__img { transform: translateY(-8px); filter: drop-shadow(0 26px 22px rgba(20, 24, 40, 0.13)); }
+
+  /* drawings hang in a white frame */
+  .exhibit--frame .exhibit__stage { place-items: center; background: var(--plinth); padding: clamp(0.6rem, 1.5vw, 1rem); border: 1px solid var(--line); box-shadow: var(--shadow-frame); transition: transform 0.8s var(--ease-out), box-shadow 0.8s var(--ease-out); }
+  .exhibit--frame .exhibit__img { object-fit: contain; background: #fff; }
+  .exhibit--frame:hover .exhibit__stage { transform: translateY(-6px); box-shadow: 0 34px 60px rgba(20, 24, 40, 0.14); }
+
+  .exhibit__label { padding-top: 1.25rem; display: grid; gap: 0.35rem; }
+  .exhibit__title { margin: 0; font-size: 1.15rem; transition: color 0.25s var(--ease-out); }
+  .exhibit--large .exhibit__title { font-size: var(--step-2); font-family: var(--font-display); font-stretch: 110%; font-weight: 700; letter-spacing: -0.02em; }
+  .exhibit__link:hover .exhibit__title { color: var(--accent); }
+  .exhibit__summary { margin: 0; font-size: 0.95rem; color: var(--ink-2); max-width: 52ch; }
+  .exhibit__meta { margin: 0.2rem 0 0; font-size: 0.83rem; color: var(--ink-3); }
+  .exhibit__3d { color: var(--accent); font-weight: 500; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .exhibit__img, .exhibit--frame .exhibit__stage { transition: none; }
+    .exhibit:hover .exhibit__img, .exhibit--frame:hover .exhibit__stage { transform: none; }
+  }
 </style>

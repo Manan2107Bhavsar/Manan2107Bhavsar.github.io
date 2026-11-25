@@ -43,7 +43,7 @@ const { src, poster, alt, sizeMB, cameraOrbit = '35deg 70deg auto', autoLoad = f
     <div {...{ slot: 'progress-bar' }} class="mv__progress"><span></span></div>
   </model-viewer>
   <div class="mv__bar">
-    <span class="label mv__hint">Drag to orbit · scroll or pinch to zoom · right-drag to pan</span>
+    <span class="mv__hint">Drag to orbit · scroll or pinch to zoom · right-drag to pan</span>
     <span class="mv__actions">
       <button type="button" class="mv__btn" data-act="reset">Reset view</button>
       <button type="button" class="mv__btn" data-act="full">Full screen</button>
@@ -80,29 +80,22 @@ const { src, poster, alt, sizeMB, cameraOrbit = '35deg 70deg auto', autoLoad = f
 </script>
 
 <style>
-  .mv { margin: 0; border: 1px solid var(--line-strong); background: var(--paper-2); }
-  model-viewer {
-    width: 100%; height: var(--mv-h);
-    background-color: transparent;
-    --poster-color: transparent;
-    background-image:
-      linear-gradient(var(--grid) 1px, transparent 1px),
-      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-    background-size: 24px 24px;
-  }
-  .mv:fullscreen { display: flex; flex-direction: column; background: var(--paper-2); }
+  .mv { margin: 0; background: radial-gradient(120% 90% at 50% 35%, #ffffff 0%, #f6f6f3 55%, #ecebe6 100%); border: 1px solid var(--line); }
+  model-viewer { width: 100%; height: var(--mv-h); background-color: transparent; --poster-color: transparent; }
+  .mv:fullscreen { display: flex; flex-direction: column; }
   .mv:fullscreen model-viewer { flex: 1; height: auto; }
   .mv__poster {
     position: absolute; inset: 0; display: grid; place-items: center;
     background-size: contain; background-position: center; background-repeat: no-repeat;
   }
-  .mv__load { box-shadow: 0 1px 0 rgba(0,0,0,0.05); }
+  .mv__load { box-shadow: 0 10px 30px rgba(35, 67, 208, 0.25); }
   .mv__progress { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; }
   .mv:not(.is-loading) .mv__progress { opacity: 0; }
   .mv__progress span { display: block; height: 100%; width: 0; background: var(--accent); transition: width 0.2s; }
-  .mv__bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.5rem; padding: 0.5rem 0.75rem; border-top: 1px solid var(--line); background: var(--paper); }
+  .mv__bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.5rem; padding: 0.6rem 0.9rem; border-top: 1px solid var(--line); background: var(--plinth); }
+  .mv__hint { font-size: 0.83rem; color: var(--ink-3); }
   .mv__actions { display: flex; gap: 0.4rem; }
-  .mv__btn { font: 500 0.8rem/1 var(--font-mono); color: var(--ink-2); background: none; border: 1px solid var(--line); border-radius: 2px; padding: 0.45rem 0.6rem; cursor: pointer; }
-  .mv__btn:hover { color: var(--accent-ink); border-color: var(--accent); }
+  .mv__btn { font: 500 0.83rem/1 var(--font-sans); color: var(--ink-2); background: var(--wall); border: 1px solid var(--line); border-radius: 999px; padding: 0.5rem 0.85rem; cursor: pointer; transition: border-color 0.2s, color 0.2s; }
+  .mv__btn:hover { color: var(--ink); border-color: var(--ink); }
   @media (max-width: 600px) { .mv__hint { display: none; } }
 </style>

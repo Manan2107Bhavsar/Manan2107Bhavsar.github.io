@@ -1,5 +1,5 @@
 ---
-// Contact lives in the footer of every page.
+// Contact lives at the foot of every page.
 // GitHub Pages is static, so the form opens the visitor's email app with the
 // message pre-filled. The address is also shown with a copy button for people
 // who use webmail.
@@ -10,10 +10,9 @@ const year = new Date().getFullYear();
 ---
 <footer class="site-footer">
   <section id="contact" class="contact wrap" aria-labelledby="contact-title">
-    <div class="contact__intro">
-      <p class="label">Contact</p>
-      <h2 id="contact-title">Let's talk drafting.</h2>
-      <p class="muted">Questions about my work, a co-op or job opening, or one of my tools? Send me a message and I'll reply by email.</p>
+    <div class="contact__intro" data-reveal>
+      <h2 id="contact-title">Get in touch</h2>
+      <p class="contact__lede">A drafting role, a question about one of my tools, or just a hello. I reply by email.</p>
       <div class="contact__direct">
         <a class="contact__email" href={`mailto:${email}`}>{email}</a>
         <button class="btn btn--ghost copy-btn" type="button" data-copy={email}>Copy email</button>
@@ -24,28 +23,32 @@ const year = new Date().getFullYear();
       </ul>
     </div>
 
-    <form class="contact__form" data-email={email} novalidate>
-      <div class="field">
-        <label for="c-name">Your name</label>
-        <input id="c-name" name="name" type="text" autocomplete="name" required />
-      </div>
-      <div class="field">
-        <label for="c-subject">Subject</label>
-        <input id="c-subject" name="subject" type="text" placeholder="e.g. Drafting position" />
+    <form class="contact__form" data-email={email} novalidate data-reveal>
+      <div class="contact__row">
+        <div class="field">
+          <label for="c-name">Your name</label>
+          <input id="c-name" name="name" type="text" autocomplete="name" required />
+        </div>
+        <div class="field">
+          <label for="c-subject">Subject</label>
+          <input id="c-subject" name="subject" type="text" placeholder="Drafting position" />
+        </div>
       </div>
       <div class="field">
         <label for="c-msg">Message</label>
         <textarea id="c-msg" name="message" rows="5" required></textarea>
       </div>
-      <button class="btn" type="submit">Email me</button>
-      <p class="form-note muted" role="status">Opens your email app with your message ready to send.</p>
+      <div class="contact__send">
+        <button class="btn" type="submit">Send by email</button>
+        <p class="form-note" role="status">Opens your email app with the message ready.</p>
+      </div>
     </form>
   </section>
 
   <div class="footer-bar">
     <div class="wrap footer-bar__inner">
-      <span class="label">© {year} Manan Bhavsar · Moose Jaw &amp; Saskatoon, SK</span>
-      <span class="label">Built with Astro · Hosted on GitHub Pages</span>
+      <span>© {year} Manan Bhavsar · Moose Jaw &amp; Saskatoon, SK</span>
+      <span>Built with Astro · Hosted on GitHub Pages</span>
     </div>
   </div>
 </footer>
@@ -67,7 +70,13 @@ const year = new Date().getFullYear();
     const name = String(d.get('name') || '').trim();
     const msg = String(d.get('message') || '').trim();
     const note = form.querySelector('.form-note');
-    if (!name || !msg) { if (note) note.textContent = 'Please add your name and a message.'; return; }
+    form.querySelectorAll('[aria-invalid]').forEach((el) => el.removeAttribute('aria-invalid'));
+    if (!name || !msg) {
+      if (!name) form.querySelector('#c-name')?.setAttribute('aria-invalid', 'true');
+      if (!msg) form.querySelector('#c-msg')?.setAttribute('aria-invalid', 'true');
+      if (note) note.textContent = 'Add your name and a message, then send again.';
+      return;
+    }
     const subject = String(d.get('subject') || '').trim() || `Message from ${name} (portfolio)`;
     const body = `${msg}\n\n— ${name}`;
     window.location.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
@@ -76,25 +85,38 @@ const year = new Date().getFullYear();
 </script>
 
 <style>
-  .site-footer { border-top: 1px solid var(--line); margin-top: var(--space-5); background: var(--paper-2); }
-  .contact { display: grid; grid-template-columns: 1fr 1.1fr; gap: var(--space-5); padding-block: var(--space-5); }
-  .contact h2 { margin-top: 0.3rem; }
-  .contact__direct { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; margin: var(--space-3) 0 var(--space-2); }
-  .contact__email { font-family: var(--font-mono); font-size: 1rem; color: var(--ink); }
-  .contact__links { display: flex; gap: 1.25rem; list-style: none; padding: 0; margin: 0; }
+  .site-footer { background: var(--wall-2); margin-top: var(--space-6); }
+  .contact { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--space-5); padding-block: var(--space-6) var(--space-5); }
+  .contact h2 { font-size: var(--step-4); font-stretch: 118%; letter-spacing: -0.03em; margin-bottom: var(--space-2); }
+  .contact__lede { font-size: 1.1rem; color: var(--ink-2); max-width: 36ch; }
+  .contact__direct { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1rem; margin: var(--space-3) 0 var(--space-2); }
+  .contact__email { font-size: 1rem; color: var(--ink); }
+  .contact__links { display: flex; gap: 1.5rem; list-style: none; padding: 0; margin: 0; }
   .contact__links li { margin: 0; }
-  .contact__form { display: grid; gap: var(--space-2); align-content: start; }
-  .field { display: grid; gap: 0.35rem; }
-  .field label { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-3); }
+  .contact__links a { text-decoration: none; font-weight: 500; }
+
+  .contact__form { display: grid; gap: 1.1rem; align-content: start; background: var(--plinth); border: 1px solid var(--line); padding: clamp(1.25rem, 3vw, 2rem); }
+  .contact__row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.1rem; }
+  .field { display: grid; gap: 0.45rem; }
+  .field label { font-size: 0.85rem; font-weight: 500; color: var(--ink-2); }
   .field input, .field textarea {
-    font: inherit; color: var(--ink);
-    background: var(--paper); border: 1px solid var(--line-strong); border-radius: var(--radius);
-    padding: 0.7rem 0.8rem;
+    font: inherit; font-size: 1rem; color: var(--ink);
+    background: #fafaf8; border: 1px solid var(--line-strong); border-radius: 8px;
+    padding: 0.75rem 0.9rem; resize: vertical;
+    transition: border-color 0.2s var(--ease-out), background 0.2s var(--ease-out);
   }
-  .field input:focus, .field textarea:focus { outline: 2px solid var(--accent); outline-offset: 0; border-color: transparent; }
-  .contact__form .btn { justify-self: start; }
-  .form-note { font-size: var(--step--1); margin: 0; }
-  .footer-bar { border-top: 1px solid var(--line); }
-  .footer-bar__inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; padding-block: 1.1rem; }
-  @media (max-width: 860px) { .contact { grid-template-columns: 1fr; gap: var(--space-4); } }
+  .field input::placeholder { color: #6a6f76; }
+  .field input:hover, .field textarea:hover { border-color: var(--ink-3); }
+  .field input:focus, .field textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); background: var(--plinth); }
+  .field [aria-invalid='true'] { border-color: #b4231a; }
+  .contact__send { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1rem; }
+  .form-note { font-size: var(--step--1); color: var(--ink-3); margin: 0; }
+
+  .footer-bar { border-top: 1px solid var(--line-strong); }
+  .footer-bar__inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 1.5rem; padding-block: 1.25rem; font-size: 0.85rem; color: var(--ink-3); }
+
+  @media (max-width: 860px) {
+    .contact { grid-template-columns: 1fr; gap: var(--space-4); padding-block: var(--space-5) var(--space-4); }
+    .contact__row { grid-template-columns: 1fr; }
+  }
 </style>

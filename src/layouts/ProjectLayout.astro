@@ -1,6 +1,6 @@
 ---
 // Shared template for every project page (academic and side projects).
-// Order: back link -> title -> title block -> 3D viewer -> write-up (Markdown body) -> drawings/links.
+// Order: back link -> title and wall label -> 3D viewer (or the drawing) -> write-up -> drawings/links.
 import type { CollectionEntry } from 'astro:content';
 import Base from './Base.astro';
 import TitleBlock from '../components/TitleBlock.astro';
@@ -11,7 +11,6 @@ const { project, sheet } = Astro.props;
 const d = project.data;
 const back = d.kind === 'side' ? { href: '/side-projects/', label: 'All side projects' } : { href: '/projects/', label: 'All projects' };
 const fields = [
-  { k: 'Project', v: d.title },
   { k: 'Discipline', v: d.discipline },
   ...(d.course ? [{ k: 'Course', v: d.course }] : []),
   { k: 'Date', v: d.term },
@@ -20,62 +19,80 @@ const fields = [
 ];
 ---
 <Base title={d.title} description={d.summary} image={d.poster}>
-  <article class="wrap project">
-    <a class="back label" href={back.href}>← {back.label}</a>
-    <header class="project__head">
-      <h1>{d.title}</h1>
-      <p class="lede">{d.summary}</p>
+  <article class="project">
+    <header class="wrap project__head">
+      <div class="project__title">
+        <a class="back" href={back.href}><span aria-hidden="true">← </span>{back.label}</a>
+        <h1>{d.title}</h1>
+        <p class="lede">{d.summary}</p>
+      </div>
       <TitleBlock fields={fields} sheet={sheet} />
     </header>
 
     {d.model && (
-      <div class="project__model">
-        <ModelViewer src={d.model} poster={d.poster} alt={`3D model of ${d.title}`} sizeMB={d.sizeMB} cameraOrbit={d.cameraOrbit} />
+      <div class="wrap project__model">
+        <ModelViewer src={d.model} poster={d.poster} alt={`3D model of ${d.title}`} sizeMB={d.sizeMB} cameraOrbit={d.cameraOrbit} height="min(74vh, 720px)" />
       </div>
     )}
 
     {!d.model && d.poster && (
-      <figure class="project__poster grid-bg">
-        <img src={d.poster} alt={`${d.title}: ${d.drawings?.length ? 'from the drawing set' : 'overview'}`} loading="eager" decoding="async" />
-        {d.drawings?.length ? <figcaption class="label">From the drawing set · <a href={d.drawings[0].href} target="_blank" rel="noopener">open the PDF</a></figcaption> : null}
+      <figure class="wrap project__poster">
+        <div class="project__frame">
+          <img src={d.poster} alt={`${d.title}: ${d.drawings?.length ? 'from the drawing set' : 'overview'}`} loading="eager" decoding="async" />
+        </div>
+        {d.drawings?.length ? <figcaption>From the drawing set · <a href={d.drawings[0].href} target="_blank" rel="noopener">open the PDF</a></figcaption> : null}
       </figure>
     )}
 
-    <div class="project__body prose">
-      <slot />
-    </div>
+    <div class="wrap project__lower">
+      <div class="project__body prose" data-reveal>
+        <slot />
+      </div>
 
-    {(d.drawings?.length || d.links?.length) && (
-      <aside class="project__files">
-        {d.drawings?.length ? (
-          <div>
-            <p class="label">Drawings</p>
-            <ul>{d.drawings.map((x) => <li><a href={x.href} target="_blank" rel="noopener">{x.label} (PDF)</a></li>)}</ul>
-          </div>
-        ) : null}
-        {d.links?.length ? (
-          <div>
-            <p class="label">Links</p>
-            <ul>{d.links.map((x) => <li><a href={x.href} target="_blank" rel="noopener">{x.label}</a></li>)}</ul>
-          </div>
-        ) : null}
-      </aside>
-    )}
+      {(d.drawings?.length || d.links?.length) && (
+        <aside class="project__files" data-reveal>
+          {d.drawings?.length ? (
+            <div>
+              <h2>Drawings</h2>
+              <ul>{d.drawings.map((x) => <li><a href={x.href} target="_blank" rel="noopener">{x.label} (PDF)</a></li>)}</ul>
+            </div>
+          ) : null}
+          {d.links?.length ? (
+            <div>
+              <h2>Links</h2>
+              <ul>{d.links.map((x) => <li><a href={x.href} target="_blank" rel="noopener">{x.label}</a></li>)}</ul>
+            </div>
+          ) : null}
+        </aside>
+      )}
+    </div>
   </article>
 </Base>
 
 <style>
-  .project { padding-block: var(--space-4) var(--space-5); }
-  .back { text-decoration: none; display: inline-block; margin-bottom: var(--space-3); }
-  .back:hover { color: var(--accent-ink); }
-  .project__head { display: grid; gap: var(--space-2); margin-bottom: var(--space-4); }
-  .project__head h1 { margin: 0; }
-  .project__model { margin-bottom: var(--space-4); }
-  .project__poster { margin: 0 0 var(--space-4); border: 1px solid var(--line-strong); background-color: var(--paper-2); }
-  .project__poster img { width: 100%; max-height: 640px; object-fit: contain; background: #fff; }
-  .project__poster figcaption { padding: 0.5rem 0.75rem; border-top: 1px solid var(--line); background: var(--paper); }
+  .project { padding-bottom: var(--space-5); }
+  .project__head { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: var(--space-5); align-items: end; padding-block: var(--space-5) var(--space-4); }
+  .back { display: inline-block; margin-bottom: var(--space-3); font-size: 0.92rem; color: var(--ink-3); text-decoration: none; }
+  .back:hover { color: var(--accent); }
+  .project__title h1 { font-size: var(--step-4); line-height: 1; margin-bottom: var(--space-3); }
+  .project__title .lede { max-width: 52ch; margin: 0; }
+
+  .project__model { margin-bottom: var(--space-5); }
+  .project__poster { margin: 0 auto var(--space-5); }
+  .project__frame { background: var(--plinth); padding: clamp(0.75rem, 2vw, 1.5rem); border: 1px solid var(--line); box-shadow: var(--shadow-frame); }
+  .project__frame img { width: 100%; max-height: 720px; object-fit: contain; background: #fff; }
+  .project__poster figcaption { margin-top: 0.9rem; font-size: 0.9rem; color: var(--ink-3); }
+
+  .project__lower { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: var(--space-5); align-items: start; }
   .project__body :global(h2) { font-size: var(--step-2); margin-top: var(--space-4); }
-  .project__body :global(h3) { margin-top: var(--space-3); }
-  .project__files { display: flex; flex-wrap: wrap; gap: var(--space-5); border-top: 1px solid var(--line); margin-top: var(--space-4); padding-top: var(--space-3); }
-  .project__files ul { list-style: none; padding: 0; margin: 0.4rem 0 0; }
+  .project__body :global(h2:first-child) { margin-top: 0; }
+  .project__files { position: sticky; top: 100px; display: grid; gap: var(--space-3); border-top: 2px solid var(--ink); padding-top: var(--space-2); }
+  .project__files h2 { font-family: var(--font-sans); font-size: 0.95rem; font-weight: 600; letter-spacing: 0; margin: 0 0 0.4rem; }
+  .project__files ul { list-style: none; padding: 0; margin: 0; }
+  .project__files li { margin: 0; padding: 0.35rem 0; }
+
+  @media (max-width: 900px) {
+    .project__head, .project__lower { grid-template-columns: 1fr; gap: var(--space-4); }
+    .project__files { position: static; }
+  }
 </style>

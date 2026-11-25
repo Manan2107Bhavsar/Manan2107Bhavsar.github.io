@@ -33,13 +33,13 @@ const skills = [
   title="Resume"
   description="Resume of Manan Bhavsar: Engineering Design & Drafting Technology student at Saskatchewan Polytechnic, three co-op terms as a Drafting Student with the City of Saskatoon."
 >
-  <article class="wrap section resume">
+  <article class="wrap resume">
     <div class="resume__actions">
       <button class="btn btn--ghost print-btn" type="button">Print / Save as PDF</button>
     </div>
 
     <header class="resume__head">
-      <SectionHead as="h1" label="Resume" title="Manan Bhavsar" />
+      <SectionHead as="h1" title="Manan Bhavsar" />
       <p class="resume__contact">
         <span>Moose Jaw &amp; Saskatoon, SK</span>
         <span aria-hidden="true">·</span>
@@ -178,14 +178,15 @@ const skills = [
 </script>
 
 <style>
-  .resume { max-width: 900px; }
+  .resume { max-width: 980px; background: var(--plinth); border: 1px solid var(--line); box-shadow: var(--shadow-frame); padding: clamp(1.5rem, 5vw, 4rem); margin-top: var(--space-5); }
+  .resume__head :global(h1) { font-size: var(--step-4); }
   .resume__actions { display: flex; justify-content: flex-end; margin-bottom: var(--space-2); }
   .resume__head { margin-bottom: var(--space-3); }
   .resume__head :global(.section-head) { margin-bottom: var(--space-2); }
-  .resume__contact { display: flex; flex-wrap: wrap; gap: 0.25rem 0.6rem; font-family: var(--font-mono); font-size: 0.9rem; color: var(--ink-2); margin: 0; }
+  .resume__contact { display: flex; flex-wrap: wrap; gap: 0.25rem 0.6rem; font-size: 0.95rem; color: var(--ink-2); margin: 0; }
 
-  .r-sec { border-top: 1px solid var(--line-strong); padding-top: var(--space-2); margin-top: var(--space-3); }
-  .r-sec h2 { font-family: var(--font-mono); font-size: 0.85rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-ink); margin: 0 0 var(--space-2); }
+  .r-sec { border-top: 1px solid var(--line-strong); padding-top: var(--space-3); margin-top: var(--space-4); }
+  .r-sec h2 { font-family: var(--font-display); font-stretch: 112%; font-size: 1.15rem; font-weight: 700; letter-spacing: -0.01em; color: var(--ink); margin: 0 0 var(--space-2); }
   .r-profile { color: var(--ink-2); max-width: var(--measure); }
 
   .r-row { display: grid; grid-template-columns: 1fr; gap: 0.2rem; margin: 0 0 var(--space-3); break-inside: avoid; page-break-inside: avoid; }
@@ -210,14 +211,14 @@ const skills = [
 
   @media print {
     :global(:root) {
-      --paper: #fff; --paper-2: #fff; --ink: #000; --ink-2: #000; --ink-3: #333;
-      --line: #999; --line-strong: #666; --accent: #000; --accent-ink: #000;
+      --wall: #fff; --wall-2: #fff; --plinth: #fff; --ink: #000; --ink-2: #000; --ink-3: #333;
+      --line: #999; --line-strong: #666; --accent: #000; --accent-deep: #000;
     }
     :global(html), :global(body) { background: #fff !important; color: #000 !important; font-size: 10.5pt; line-height: 1.4; }
     :global(.site-header), :global(.site-footer), :global(.site-nav), :global(.skip) { display: none !important; }
     :global(main) { padding: 0; }
 
-    .resume { width: 100%; max-width: none; margin: 0; padding: 0; }
+    .resume { width: 100%; max-width: none; margin: 0; padding: 0; border: 0; box-shadow: none; }
     .resume__actions { display: none; }
     .resume__head :global(.label), .resume__head :global(.dim) { display: none; }
     .resume__head :global(h1) { font-size: 20pt; margin: 0 0 4pt; }

@@ -17,8 +17,8 @@ const timeline = [
   title="About"
   description="About Manan Bhavsar: a mechanical engineering diploma, then drafting for the City of Saskatoon as an EDDT student at Saskatchewan Polytechnic."
 >
-  <section class="section wrap">
-    <SectionHead as="h1" label="About" title="Mechanical training, drafting across disciplines." />
+  <section class="section wrap page-top">
+    <SectionHead as="h1" title="Mechanical training, drafting across disciplines." />
     <p class="lede">
       I'm Manan Bhavsar, a drafting and design student at Saskatchewan Polytechnic. I grew up in Gujarat, India,
       came to Canada in 2023, and split my time between Moose Jaw for school and Saskatoon for co-op.
@@ -27,7 +27,7 @@ const timeline = [
 
   <section class="section wrap about" aria-labelledby="story-title">
     <div class="about__story">
-      <SectionHead label="Story" title="How I got here" id="story-title" />
+      <SectionHead title="How I got here" id="story-title" />
       <div class="prose">
         <p>
           After grade 10 I chose mechanical engineering, because I was curious about how machines work. I finished a Diploma in Mechanical Engineering at
@@ -58,7 +58,7 @@ const timeline = [
     </div>
 
     <aside class="about__timeline" aria-labelledby="timeline-title">
-      <p class="label" id="timeline-title">Timeline</p>
+      <h2 class="about__tl-title" id="timeline-title">Timeline</h2>
       <ol class="timeline">
         {timeline.map((t) => (
           <li>
@@ -72,7 +72,7 @@ const timeline = [
 
   <section class="section wrap cols">
     <div>
-      <SectionHead label="Off the drawing board" title="Outside drafting" id="outside-title" />
+      <SectionHead title="Outside drafting" id="outside-title" />
       <ul class="list">
         <li>
           <strong>Front End Supervisor (and cashier), Muhammad's No Frills, Moose Jaw.</strong>
@@ -92,10 +92,10 @@ const timeline = [
       </ul>
     </div>
     <div>
-      <SectionHead label="Credentials" title="Certifications" id="certs-title" />
+      <SectionHead title="Certifications" id="certs-title" />
       <ul class="list">
-        <li><strong>Certified SolidWorks Professional (CSWP)</strong>, Mechanical Design <span class="label">Jan 2024</span></li>
-        <li><strong>Autodesk Certified User</strong>, AutoCAD <span class="label">Sep 2023</span></li>
+        <li><strong>Certified SolidWorks Professional (CSWP)</strong>, Mechanical Design <span class="list__date num">Jan 2024</span></li>
+        <li><strong>Autodesk Certified User</strong>, AutoCAD <span class="list__date num">Sep 2023</span></li>
       </ul>
       <p class="muted next">
         See my <a href="/resume/">resume</a>, or <a href="#contact">get in touch</a>.
@@ -108,20 +108,21 @@ const timeline = [
   .about { display: grid; gap: var(--space-4); }
   @media (min-width: 960px) {
     .about { grid-template-columns: minmax(0, 1fr) 320px; gap: var(--space-5); align-items: start; }
-    .about__timeline { position: sticky; top: var(--space-4); }
+    .about__timeline { position: sticky; top: 100px; }
   }
-  .about__timeline { border-top: 1px solid var(--line-strong); padding-top: var(--space-2); }
+  .about__timeline { border-top: 2px solid var(--ink); padding-top: var(--space-2); }
 
   .timeline { list-style: none; padding: 0; margin: var(--space-2) 0 0; border-left: 1px solid var(--line); }
   .timeline li { position: relative; margin: 0; padding: 0 0 var(--space-2) var(--space-3); display: grid; gap: 0.15rem; color: var(--ink-2); font-size: 0.95rem; }
-  .timeline li::before { content: ''; position: absolute; left: -4px; top: 0.45em; width: 7px; height: 7px; border: 1px solid var(--accent); background: var(--paper); }
-  .timeline__date { font-family: var(--font-mono); font-size: 0.8rem; color: var(--ink); }
+  .timeline li::before { content: ''; position: absolute; left: -4px; top: 0.45em; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+  .timeline__date { font-family: var(--font-mono); font-size: 0.8rem; color: var(--ink-3); }
+  .about__tl-title { font-family: var(--font-sans); font-size: 1rem; font-weight: 600; letter-spacing: 0; margin: 0; }
 
   .cols { display: grid; gap: var(--space-4); }
   @media (min-width: 860px) { .cols { grid-template-columns: 1.4fr 1fr; gap: var(--space-5); } }
   .list { padding: 0; list-style: none; max-width: var(--measure); }
   .list li { color: var(--ink-2); padding-block: 0.6rem; border-top: 1px solid var(--line); margin: 0; }
   .list strong { color: var(--ink); }
-  .list .label { margin-left: 0.4rem; white-space: nowrap; }
+  .list__date { margin-left: 0.4rem; white-space: nowrap; font-size: 0.85rem; color: var(--ink-3); }
   .next { margin-top: var(--space-3); }
 </style>
