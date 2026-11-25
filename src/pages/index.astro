@@ -116,9 +116,8 @@ const steps = [
       <title id="plan-svg-title">Floor plan of the portfolio with six rooms</title>
       <rect class="plan__outer" x="6" y="6" width="748" height="348" pathLength="1" />
       <g class="plan__walls">
-        <path d="M260 6v120M260 176v178M500 6v170M500 226v128M6 180h200M296 180h170M540 180h214" pathLength="1" />
+        <path d="M260 6V120M260 170V354M500 6V120M500 170V354M6 180H190M240 180H430M480 180H690M740 180H754" pathLength="1" />
       </g>
-      <g class="plan__doors" aria-hidden="true"><path d="M260 126a50 50 0 0 1 50 50M500 176a50 50 0 0 1 50 50" /></g>
 
       <a href="/projects/?d=Mechanical" class="room"><rect x="20" y="20" width="226" height="146" /><text x="36" y="58" class="room__name">Mechanical</text><text x="36" y="86" class="room__note">{plural(rooms.mech, 'exhibit')} · Inventor</text></a>
       <a href="/projects/?d=Architectural" class="room"><rect x="274" y="20" width="212" height="146" /><text x="290" y="58" class="room__name">Architectural</text><text x="290" y="86" class="room__note">{plural(rooms.arch, 'exhibit')} · Revit</text></a>
@@ -126,6 +125,11 @@ const steps = [
       <a href="/projects/?d=Civil" class="room"><rect x="20" y="194" width="226" height="146" /><text x="36" y="232" class="room__name">Civil</text><text x="36" y="260" class="room__note">{plural(rooms.civil, 'exhibit')} · Civil 3D</text></a>
       <a href="/work/" class="room room--accent"><rect x="274" y="194" width="212" height="146" /><text x="290" y="232" class="room__name">Co-op work</text><text x="290" y="260" class="room__note">3 tools, City of Saskatoon</text></a>
       <a href="/side-projects/" class="room"><rect x="514" y="194" width="226" height="146" /><text x="530" y="232" class="room__name">Side projects</text><text x="530" y="260" class="room__note">{plural(rooms.side, 'project')}</text></a>
+      <g class="plan__doors" aria-hidden="true">
+        <!-- door leaf (open 90°) plus its swing arc, drawn like a plan symbol -->
+        <path class="leaf" d="M260 170H310M500 170H450M240 180V230M480 180V230M740 180V230" />
+        <path class="swing" d="M310 170A50 50 0 0 0 260 120M450 170A50 50 0 0 1 500 120M240 230A50 50 0 0 1 190 180M480 230A50 50 0 0 1 430 180M740 230A50 50 0 0 1 690 180" />
+      </g>
     </svg>
   </section>
 
@@ -295,7 +299,9 @@ const steps = [
   .plan__svg { width: 100%; height: auto; overflow: visible; }
   .plan__outer { fill: #fafaf8; stroke: var(--ink); stroke-width: 6; }
   .plan__walls path { fill: none; stroke: var(--ink); stroke-width: 3; }
-  .plan__doors path { fill: none; stroke: #9da1a8; stroke-width: 1; }
+  .plan__doors { pointer-events: none; }
+  .plan__doors .leaf { fill: none; stroke: var(--ink); stroke-width: 2.5; }
+  .plan__doors .swing { fill: none; stroke: #8d9198; stroke-width: 1.2; }
   .room rect { fill: transparent; transition: fill 0.35s var(--ease-out); }
   .room:hover rect, .room:focus-visible rect { fill: var(--accent-tint); }
   .room--accent rect { fill: var(--accent-tint); }

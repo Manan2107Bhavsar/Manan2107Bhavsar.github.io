@@ -102,7 +102,7 @@ if (plan && !reduce) {
       scrollTrigger: { trigger: plan, start: 'top 85%', end: 'top 35%', scrub: 0.8 },
     },
   );
-  gsap.from(plan.querySelectorAll('.room'), {
+  gsap.from(plan.querySelectorAll('.room, .plan__doors'), {
     opacity: 0,
     duration: 0.8,
     ease: 'expo.out',
